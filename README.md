@@ -54,13 +54,13 @@ and the `person.ttl` dataset would contain lines, like
 
 With these two files you are able to generate a dataset containing tuples of the form `(<name>, <class>)` where `<class>` would be either `1` if the subject in the `names.ttl` file is present in the `person.ttl` file or `0` otherwise (binary classification problem).
 
-We have defined a helper `name_classifier.py` file that would help you. It has some boiler plate defined but you need to fill out yourself and write some extra functions or two. You can also solve this using another programming language like Scala , the python code might help you by providing some pseudo-code.
+We have defined a helper `name_classifier.py` file that would help you. It has some boiler plate defined but you need to fill out yourself and write some extra functions or two.
 
 If you use extra libraries, please amend the provided `requirements.txt` file and this readme with instructions. Once everything is ready, we could use the tool by running:
 
 `python name_classifier.py --in-folder <path-to-data> --out-folder <path-to-model-destination>` , where
-	* `<path-to-data>` corresponds to the data containing the csv files
-	* `<path-to-model-destination>` corresponds to a folder where the trained model will be serialised to
+	* `<path-to-data>` corresponds to the data containing the data files
+	* `<path-to-model-destination>` corresponds to a folder where the trained model will be serialised to.
 
 
 Your code in `name_classifier.py` should:
