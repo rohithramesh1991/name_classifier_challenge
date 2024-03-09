@@ -70,3 +70,49 @@ Your code in `name_classifier.py` should:
 * save it to a destination
 
 Once you are done, submit a pull request for evaluation. The data files are avaliable in zip files in the data folder. Please do not add the extracted data files in the pull request. 
+
+
+My observations :
+
+Built a character level RNN model. Distinguishing person names from non-person names, because character-level models excel in understanding and generating textual patterns at the most granular level.
+Personal names, especially, may include special spellings and hyphenations that are impossible to capture with word models as they depend on their vocabulary set beforehand. Nonetheless, the process of using pretrained models becomes tricky because while these models could be very powerful for capturing semantics at the word level, it may not be applicable here due to the fact that they have been trained using language corpus of general domain which does not reflect subtle patterns and usage specific to personal names. In this case though, taking another approach at a character level allows one to learn directly from the sequence of characters themselves leading to a better comprehension of patterns and sequences which can indicate personal names; thus providing a far more specialized solution for this classification task.
+
+Additional Functions purpose:
+1.  The is imbalanced as with : 1895792 - label (0) and 706970 - label (1).
+ *  Hence, created a new function `resample_dataset` : to balance the classes by undersampling.
+ *  `label (0)` - 706970 
+ *  `label (1)` - 706970
+2.  create a separate sample to use for prediction later on. This is not part if training. `sample_for_prediction` is used for this purpose.
+3.  `clean_name` : Function to clean the name column. But retained apostrophe and diacritics which are important to identify names.
+4.  `tokenize_and_pad` : Function is used for tokenizing and padding. Here I have used 95th percentile to cover for the max_Sequence length of names.
+5.  `save_tokenizer_and_max_seq_length` and `save_predict_samples` : to save the tokenizer, max_seq_length and a sample input that will be used for prediction.
+6.  `consolidated_load_and_predict` : This function will load model and model parameter along with sample input and then predict on this input and results are saved.
+
+`consolidated_load_and_predict` function will be commented in the `name_classifier.py` file.
+The results are already saved in prediction directory. In order to execute this function, please uncomment this function and comment out the `train` function.
+The function will import all the model parameters and sample input from the model and prediction directory and provide the results as csv in the same directory.
+
+If not running through command line please uncomment these lines respectively.
+* line 296 : `train('data','./')` to execute `train` function.
+or
+* line 342 : `consolidated_load_and_predict('./')` to execute this function.
+
+To execute from command line :
+* use this command on terminal : `python name_classifier.py 'data' './'` 
+
+Importance of Prediction on Unseen data:
+
+Making predictions on totally unseen data distinct from both the training and test sets gives a sense of how good a model is at generalizing. In real life scenarios, this is mirrored by the models experiencing completely new kinds of data that were never used for training or validation during testing. It provides useful information on how well the model can recognize patterns that were taught to it when given different inputs whose nature was not anticipated emphasizing its adaptability and dependability beyond any set boundaries. Moreover, it brings out hidden bias or overfitting which might be missed in normal evaluation stages.
+Please refer to `prediction_results.csv file` in prediction directory.
+
+Results:
+
+* `Test Accuracy`: 0.810
+* `Precision`: 0.77
+* `Recall`: 0.87
+
+These outcomes show that the binary classifier for names of persons works properly, with a test accuracy of about 81.10%, which means it reliably recognizes names as people’s names or not. With around 77.29% precision, this suggests that it correctly guesses the name is a person’s name nearly 77% of the time. About 87.7% recall implies that approximately 88% actual personal names in the test data are identified by it.
+
+What's Next : 
+
+To perform better in the future, incorporating more LSTM layers, GRUs or attention mechanisms is a viable option. While considering these possibilities, we need to be careful about overfitting to ensure that the changes we make consistently increase the model’s accuracy and generalizability.
