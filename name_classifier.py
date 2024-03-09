@@ -251,96 +251,96 @@ def save_predict_samples(df_predict_samples, out_folder: str):
     print(f"Predict samples saved to {file_path}")
 
 
-# def train(in_folder: str, out_folder: str) -> None:
-#
-#     """
-#     Processes the data from the input folder, trains a model, and evaluates it.
-#     """
-#
-#     df = load_data(in_folder)
-#     df_resampled, df_predict_samples = resample_dataset(df)
-#     df_resampled['cleaned_name'] = df_resampled['name'].apply(clean_name)
-#     X_train, X_test, y_train, y_test, vocab_size, max_seq_length, tokenizer = split_data(df_resampled)
-#
-#     # Model definition
-#     model = Sequential([
-#         Embedding(input_dim=vocab_size, output_dim=50, input_length=max_seq_length),
-#         Dropout(0.2),
-#         LSTM(64, kernel_regularizer=l2(0.01)),
-#         Dropout(0.2),
-#         Dense(1, activation='sigmoid')
-#     ])
-#
-#     # Model compilation
-#     model.compile(optimizer=Adam(),
-#                   loss='binary_crossentropy',
-#                   metrics=['accuracy', Precision(), Recall()])
-#
-#     # Model training
-#     callbacks = [
-#         EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True),
-#         ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=2, min_lr=0.001)
-#     ]
-#
-#     model.fit(X_train, y_train, epochs=10, batch_size=512, validation_split=0.2, callbacks=callbacks)
-#
-#     # Model evaluation
-#     test_data = (X_test, y_test)
-#     evaluate_model(model, test_data)
-#
-#     #save model
-#
-#     save_model(model, out_folder)
-#     save_tokenizer_and_max_seq_length(tokenizer, max_seq_length, './')
-#     save_predict_samples(df_predict_samples, './')
+def train(in_folder: str, out_folder: str) -> None:
+
+    """
+    Processes the data from the input folder, trains a model, and evaluates it.
+    """
+
+    df = load_data(in_folder)
+    df_resampled, df_predict_samples = resample_dataset(df)
+    df_resampled['cleaned_name'] = df_resampled['name'].apply(clean_name)
+    X_train, X_test, y_train, y_test, vocab_size, max_seq_length, tokenizer = split_data(df_resampled)
+
+    # Model definition
+    model = Sequential([
+        Embedding(input_dim=vocab_size, output_dim=50, input_length=max_seq_length),
+        Dropout(0.2),
+        LSTM(64, kernel_regularizer=l2(0.01)),
+        Dropout(0.2),
+        Dense(1, activation='sigmoid')
+    ])
+
+    # Model compilation
+    model.compile(optimizer=Adam(),
+                  loss='binary_crossentropy',
+                  metrics=['accuracy', Precision(), Recall()])
+
+    # Model training
+    callbacks = [
+        EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=2, min_lr=0.001)
+    ]
+
+    model.fit(X_train, y_train, epochs=10, batch_size=512, validation_split=0.2, callbacks=callbacks)
+
+    # Model evaluation
+    test_data = (X_test, y_test)
+    evaluate_model(model, test_data)
+
+    #save model
+
+    save_model(model, out_folder)
+    save_tokenizer_and_max_seq_length(tokenizer, max_seq_length, './')
+    save_predict_samples(df_predict_samples, './')
 # #
 # train('data','./')
 
 ## uncomment the below lines and comment the train function inorder to load saved model and predict on unseen sample ##
+#
+# def consolidated_load_and_predict(out_folder: str):
+#     model_dir = os.path.join(out_folder, 'models')
+#     data_dir = os.path.join(out_folder, 'prediction')
+#
+#     # Load the model
+#     model_path = os.path.join(model_dir, 'model.h5')
+#     model = load_model(model_path)
+#
+#     # Load the tokenizer and max_seq_length
+#     tokenizer_max_seq_length_path = os.path.join(model_dir, 'tokenizer_and_max_seq_length.pkl')
+#     with open(tokenizer_max_seq_length_path, 'rb') as file:
+#         tokenizer_data = pickle.load(file)
+#     tokenizer = tokenizer_data['tokenizer']
+#     max_seq_length = tokenizer_data['max_seq_length']
+#
+#     # Load the prediction samples
+#     predict_samples_path = os.path.join(data_dir, 'predict_input_samples.csv')
+#     df_predict_samples = pd.read_csv(predict_samples_path)
+#
+#     # Preprocess the names
+#     df_predict_samples['cleaned_name'] = df_predict_samples['name'].apply(clean_name)
+#     sequences = tokenizer.texts_to_sequences(df_predict_samples['cleaned_name'])
+#     padded_sequences = pad_sequences(sequences, maxlen=max_seq_length, padding='post')
+#
+#     # Predict
+#     predictions = model.predict(padded_sequences)
+#
+#     # Convert predictions to binary using 0.5 as the threshold
+#     predicted_labels = (predictions > 0.5).astype(int)
+#
+#     # Append predictions to the DataFrame
+#     df_predict_samples['Predicted Label'] = predicted_labels
+#
+#     # Print predictions alongside actual labels for comparison
+#     for index, row in df_predict_samples.iterrows():
+#         print(f"Name: {row['name']}, Actual Label: {row['label']}, Predicted Label: {row['Predicted Label']}")
+#
+#     # Save the updated DataFrame with predictions
+#     output_path = os.path.join(data_dir, 'prediction_results.csv')
+#     df_predict_samples.to_csv(output_path, index=False)
+#     print(f"Prediction results saved to {output_path}")
+#
+# consolidated_load_and_predict('./')
 
-def consolidated_load_and_predict(out_folder: str):
-    model_dir = os.path.join(out_folder, 'models')
-    data_dir = os.path.join(out_folder, 'prediction')
-
-    # Load the model
-    model_path = os.path.join(model_dir, 'model.h5')
-    model = load_model(model_path)
-
-    # Load the tokenizer and max_seq_length
-    tokenizer_max_seq_length_path = os.path.join(model_dir, 'tokenizer_and_max_seq_length.pkl')
-    with open(tokenizer_max_seq_length_path, 'rb') as file:
-        tokenizer_data = pickle.load(file)
-    tokenizer = tokenizer_data['tokenizer']
-    max_seq_length = tokenizer_data['max_seq_length']
-
-    # Load the prediction samples
-    predict_samples_path = os.path.join(data_dir, 'predict_input_samples.csv')
-    df_predict_samples = pd.read_csv(predict_samples_path)
-
-    # Preprocess the names
-    df_predict_samples['cleaned_name'] = df_predict_samples['name'].apply(clean_name)
-    sequences = tokenizer.texts_to_sequences(df_predict_samples['cleaned_name'])
-    padded_sequences = pad_sequences(sequences, maxlen=max_seq_length, padding='post')
-
-    # Predict
-    predictions = model.predict(padded_sequences)
-
-    # Convert predictions to binary using 0.5 as the threshold
-    predicted_labels = (predictions > 0.5).astype(int)
-
-    # Append predictions to the DataFrame
-    df_predict_samples['Predicted Label'] = predicted_labels
-
-    # Print predictions alongside actual labels for comparison
-    for index, row in df_predict_samples.iterrows():
-        print(f"Name: {row['name']}, Actual Label: {row['label']}, Predicted Label: {row['Predicted Label']}")
-
-    # Save the updated DataFrame with predictions
-    output_path = os.path.join(data_dir, 'prediction_results.csv')
-    df_predict_samples.to_csv(output_path, index=False)
-    print(f"Prediction results saved to {output_path}")
-
-consolidated_load_and_predict('./')
-
-# if __name__ == '__main__':
-#   fire.Fire(train)
+if __name__ == '__main__':
+  fire.Fire(train)
