@@ -1,4 +1,4 @@
-# People Name Classifier using Character RNN
+# People Name Classifier using Character level RNN
 
 
 Your task is to submit code that allows us to determine whether a given string is the name of a person or not. Here are some expectations: 
