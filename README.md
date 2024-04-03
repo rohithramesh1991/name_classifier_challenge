@@ -1,4 +1,4 @@
-### People Name Classifier
+# People Name Classifier using Char RNN
 
 
 Your task is to submit code that allows us to determine whether a given string is the name of a person or not. Here are some expectations: 
@@ -72,7 +72,7 @@ Your code in `name_classifier.py` should:
 Once you are done, submit a pull request for evaluation. The data files are avaliable in zip files in the data folder. Please do not add the extracted data files in the pull request. 
 
 
-My observations :
+## Observations :
 
 Built a character level RNN model. Distinguishing person names from non-person names, because character-level models excel in understanding and generating textual patterns at the most granular level.
 Personal names, especially, may include special spellings and hyphenations that are impossible to capture with word models as they depend on their vocabulary set beforehand. Nonetheless, the process of using pretrained models becomes tricky because while these models could be very powerful for capturing semantics at the word level, it may not be applicable here due to the fact that they have been trained using language corpus of general domain which does not reflect subtle patterns and usage specific to personal names. In this case though, taking another approach at a character level allows one to learn directly from the sequence of characters themselves leading to a better comprehension of patterns and sequences which can indicate personal names; thus providing a far more specialized solution for this classification task.
