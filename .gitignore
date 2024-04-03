@@ -1,0 +1,10 @@
+#ingore logs
+*.logs
+
+#ignore unwanted file
+*.ttl
+
+#ignore unwated environments and directories
+.idea/
+__MACOSX/
+venv
