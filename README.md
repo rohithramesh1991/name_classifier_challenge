@@ -120,4 +120,4 @@ What's Next :
 To perform better in the future, incorporating more LSTM layers, GRUs or attention mechanisms is a viable option. While considering these possibilities, we need to be careful about overfitting to ensure that the changes we make consistently increase the model’s accuracy and generalizability.
 
 
-A web application has been built for this purpose, and you can reference it [Web App](https://github.com/rohithramesh1991/name_classifier_api.git)
+A web application has been built for this purpose, and you can reference it [here](https://github.com/rohithramesh1991/name_classifier_api.git).
