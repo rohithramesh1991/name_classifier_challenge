@@ -78,7 +78,7 @@ Built a character level RNN model. Distinguishing person names from non-person n
 Personal names, especially, may include special spellings and hyphenations that are impossible to capture with word models as they depend on their vocabulary set beforehand. Nonetheless, the process of using pretrained models becomes tricky because while these models could be very powerful for capturing semantics at the word level, it may not be applicable here due to the fact that they have been trained using language corpus of general domain which does not reflect subtle patterns and usage specific to personal names. In this case though, taking another approach at a character level allows one to learn directly from the sequence of characters themselves leading to a better comprehension of patterns and sequences which can indicate personal names; thus providing a far more specialized solution for this classification task.
 
 Additional Functions purpose:
-1.  The data is imbalanced as with : 1895792 - label (0) and 706970 - label (1).
+1.  The data is imbalanced with : 1895792 - label (0) and 706970 - label (1).
  *  Hence, created a new function `resample_dataset` : to balance the classes by undersampling.
  *  `label (0)` - 706970 
  *  `label (1)` - 706970
