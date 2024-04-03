@@ -113,6 +113,11 @@ Results:
 
 These outcomes show that the binary classifier for names of persons works properly, with a test accuracy of about 81.10%, which means it reliably recognizes names as people’s names or not. With around 77.29% precision, this suggests that it correctly guesses the name is a person’s name nearly 77% of the time. About 87.7% recall implies that approximately 88% actual personal names in the test data are identified by it.
 
+
+
 What's Next : 
 
 To perform better in the future, incorporating more LSTM layers, GRUs or attention mechanisms is a viable option. While considering these possibilities, we need to be careful about overfitting to ensure that the changes we make consistently increase the model’s accuracy and generalizability.
+
+
+A web application has been built for this purpose, and you can reference it [Web App](https://github.com/rohithramesh1991/name_classifier_api.git)
